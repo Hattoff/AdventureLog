@@ -94,16 +94,14 @@ INSTALLED_APPS = (
 # ---------------------------------------------------------------------------
 MIDDLEWARE = (
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'adventures.middleware.XSessionTokenMiddleware',
-    'adventures.middleware.DisableCSRFForSessionTokenMiddleware',
     'adventures.middleware.DisableCSRFForAPIKeyMiddleware',
-    'adventures.middleware.DisableCSRFForMobileLoginSignup',
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'adventures.middleware.OverrideHostMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'users.middleware.EfficientSessionMiddleware',
     'cloud.middleware.CloudAccessMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
