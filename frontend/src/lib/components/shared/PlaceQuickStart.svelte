@@ -359,7 +359,10 @@
 
 			if (selectedLocation) {
 				const isCoordinatePlaceholder = selectedLocation.name.startsWith('Location at ');
-				const shouldAutoEnrichQuickAdd = isCoordinatePlaceholder || !selectedLocation.place_id;
+				// Only look up a name for map clicks. A place picked from search already has
+				// its real name; replacing it with whatever object sits at its exact
+				// coordinates (e.g. an "AED" defibrillator near a city's centre point) is wrong.
+				const shouldAutoEnrichQuickAdd = isCoordinatePlaceholder;
 				const resolvedLocationName = (formatted.location_name || '').trim();
 				const resolvedDisplayName = (formatted.display_name || '').trim();
 
