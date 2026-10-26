@@ -140,7 +140,13 @@ def _parse_overpass(data: Dict[str, Any], origin: Optional[tuple]) -> List[Dict[
         tags = node.get("tags", {}) or {}
         lat = node.get("lat") or node.get("center", {}).get("lat")
         lon = node.get("lon") or node.get("center", {}).get("lon")
-        name = tags.get("name") or tags.get("official_name") or tags.get("alt_name")
+        language = getattr(settings, "GEOCODING_LANGUAGE", "")
+        name = (
+            (tags.get(f"name:{language}") if language else None)
+            or tags.get("name")
+            or tags.get("official_name")
+            or tags.get("alt_name")
+        )
         if not name or lat is None or lon is None:
             continue
 

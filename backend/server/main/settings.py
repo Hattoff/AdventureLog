@@ -471,5 +471,8 @@ COUNTRY_REGION_JSON_VERSION = 'v3.1'
 
 # External service keys (do not hardcode secrets)
 GOOGLE_MAPS_API_KEY = getenv('GOOGLE_MAPS_API_KEY', '')
+# Preferred language for place names returned by OpenStreetMap (e.g. "en").
+# Empty keeps OpenStreetMap's default of local-language names.
+GEOCODING_LANGUAGE = getenv('GEOCODING_LANGUAGE', '').strip()
 STRAVA_CLIENT_ID = getenv('STRAVA_CLIENT_ID', '')
 STRAVA_CLIENT_SECRET = getenv('STRAVA_CLIENT_SECRET', '')

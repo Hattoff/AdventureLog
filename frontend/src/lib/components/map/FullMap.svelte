@@ -22,6 +22,7 @@
 	import type { ClusterOptions, LayerClickInfo } from 'svelte-maplibre';
 	import { getBasemapUrl } from '$lib';
 	import { getMapViewportCenter } from '$lib/map/viewportCenter';
+	import { applyMapLabelLanguage, getMapLabelLanguage } from '$lib/map/labelLanguage';
 	import MapFloatingControls from '$lib/components/map/MapFloatingControls.svelte';
 	import { resolveThemeColor, withAlpha } from '$lib/utils/resolveThemeColor';
 
@@ -132,6 +133,16 @@
 			// Fallback: at least trigger a remount.
 			bump();
 		}
+	}
+
+	// Optional: show basemap labels in a preferred language (PUBLIC_MAP_LABEL_LANGUAGE).
+	// Re-applied on every style load because switching basemaps replaces all layers.
+	let labelLanguageMap: any = null;
+	$: if (map && map !== labelLanguageMap && getMapLabelLanguage()) {
+		labelLanguageMap = map;
+		const m = map as any;
+		if (typeof m?.on === 'function') m.on('style.load', () => applyMapLabelLanguage(m));
+		if (typeof m?.isStyleLoaded === 'function' && m.isStyleLoaded()) applyMapLabelLanguage(m);
 	}
 
 	let resolvedStyle = getBasemapUrl(basemapType);

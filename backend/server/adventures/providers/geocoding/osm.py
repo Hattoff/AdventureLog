@@ -2,6 +2,7 @@ import socket
 from typing import Dict
 
 import requests
+from django.conf import settings
 
 from adventures.providers.base import ProviderResult
 
@@ -29,6 +30,9 @@ def reverse_geocode(lat: float, lon: float, user_agent: str = "AdventureLog Serv
         "lat": lat,
         "lon": lon,
     }
+    language = getattr(settings, "GEOCODING_LANGUAGE", "")
+    if language:
+        params["accept-language"] = language
     headers = {"User-Agent": user_agent}
 
     try:

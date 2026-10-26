@@ -1,6 +1,7 @@
 from typing import Dict, List
 
 import requests
+from django.conf import settings
 
 from adventures.providers.base import ProviderResult
 
@@ -14,6 +15,9 @@ def search_places(query: str, limit: int = 20, user_agent: str = "AdventureLog S
         "format": "jsonv2",
         "limit": limit,
     }
+    language = getattr(settings, "GEOCODING_LANGUAGE", "")
+    if language:
+        params["accept-language"] = language
 
     try:
         response = requests.get(SEARCH_URL, headers=headers, params=params, timeout=(2, 5))
